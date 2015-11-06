@@ -69,7 +69,7 @@ class GameUtilities {
 
     //Figure out the distance between the sprites
     let vx = (leader.x + leader.width / 2) - (follower.x + follower.width / 2),
-        vy = (leader.x + leader.width / 2) - (follower.x + follower.width / 2),
+        vy = (leader.y + leader.height / 2) - (follower.y + follower.height / 2),
         distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 move
