@@ -11,7 +11,7 @@ library in your JavaScript file like this:
 ```
 let gu = new GameUtilities();
 ```
-You can now access all the ultility methods through the `gu` object.
+You can now access all the utility methods through the `gu` object.
 
 Or, just copy and paster the function you need from the source file
 into your own project code.
@@ -26,6 +26,13 @@ b. A sprite object.
 The function returns the number of pixels distance between the sprites.
 
     let distanceBetweenSprites = gu.distance(spriteA, spriteB);
+
+If distance is calcuated from the sprites' center points, assuming
+that the x/y anchor point is the sprite's top left corner. However, if
+a sprite's x/y anchor has been shifted, the distance will be
+calculated from that anchor point. All the Game Utility methods that depend
+on a distance calculation work in this same way (`followEase`,
+`followConstant`, `rotateAroundSprite` and `angle`).
 
 followEase
 -----------
