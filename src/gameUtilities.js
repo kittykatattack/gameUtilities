@@ -16,8 +16,8 @@ class GameUtilities {
   */
 
   distance(s1, s2) {
-    let vx = (s2.x + s2.width / 2) - (s1.x + s1.width / 2),
-        vy = (s2.y + s2.height / 2) - (s1.y + s1.height / 2);
+    let vx = (s2.x + this._getCenter(s2, s2.width, "x")) - (s1.x + this._getCenter(s1, s1.width, "x")),
+        vy = (s2.y + this._getCenter(s2, s2.height, "y")) - (s1.y + this._getCenter(s1, s1.height, "y"));
     return Math.sqrt(vx * vx + vy * vy);
   }
 
@@ -39,8 +39,14 @@ class GameUtilities {
   followEase(follower, leader, speed) {
 
     //Figure out the distance between the sprites
+    /*
     let vx = (leader.x + leader.width / 2) - (follower.x + follower.width / 2),
         vy = (leader.y + leader.height / 2) - (follower.y + follower.height / 2),
+        distance = Math.sqrt(vx * vx + vy * vy);
+    */
+
+    let vx = (leader.x + this._getCenter(leader, leader.width, "x")) - (follower.x + this._getCenter(follower, follower.width, "x")),
+        vy = (leader.y + this._getCenter(leader, leader.height, "y")) - (follower.y + this._getCenter(follower, follower.height, "y")),
         distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 pixel
@@ -68,8 +74,8 @@ class GameUtilities {
   followConstant(follower, leader, speed) {
 
     //Figure out the distance between the sprites
-    let vx = (leader.x + leader.width / 2) - (follower.x + follower.width / 2),
-        vy = (leader.y + leader.height / 2) - (follower.y + follower.height / 2),
+    let vx = (leader.x + this._getCenter(leader, leader.width, "x")) - (follower.x + this._getCenter(follower, follower.width, "x")),
+        vy = (leader.y + this._getCenter(leader, leader.height, "y")) - (follower.y + this._getCenter(follower, follower.height, "y")),
         distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 move
@@ -96,10 +102,37 @@ class GameUtilities {
 
   angle(s1, s2) {
     return Math.atan2(
+      /*
       (s2.y + s2.height / 2) - (s1.y + s1.height / 2),
       (s2.x + s2.width / 2) - (s1.x + s1.width / 2)
+      */
+      (s2.y + this._getCenter(s2, s2.height, "y")) - (s1.y + this._getCenter(s1, s1.height, "y")),
+      (s2.x + this._getCenter(s2, s2.width, "x")) - (s1.x + this._getCenter(s1, s1.width, "x"))
     );
   }
+
+  /*
+  _getCenter
+  ----------
+
+  A utility that finds the center point of the sprite. If it's anchor point is the
+  sprite's top left corner, then the center is calculated from that point.
+  If the anchor point has been shifted, then the anchor x/y point is used as the sprite's center
+  */
+
+  _getCenter(o, dimension, axis) {
+    if (o.anchor !== undefined) {
+      if (o.anchor[axis] !== 0) {
+        return 0;
+      } else {
+        //console.log(o.anchor[axis])
+        return dimension / 2;
+      }
+    } else {
+      return dimension; 
+    }
+  }
+  
 
   /*
   rotateAroundSprite
@@ -118,14 +151,14 @@ class GameUtilities {
 
   rotateAroundSprite(rotatingSprite, centerSprite, distance, angle) {
     rotatingSprite.x
-      = (centerSprite.x + centerSprite.width / 2) - rotatingSprite.parent.x
+      = (centerSprite.x + this._getCenter(centerSprite, centerSprite.width, "x")) - rotatingSprite.parent.x
       + (distance * Math.cos(angle))
-      - rotatingSprite.width / 2;
+      - this._getCenter(rotatingSprite, rotatingSprite.width, "x");
 
     rotatingSprite.y
-      = (centerSprite.y + centerSprite.height / 2) - rotatingSprite.parent.y
+      = (centerSprite.y + (centerSprite, centerSprite.height, "y")) - rotatingSprite.parent.y
       + (distance * Math.sin(angle))
-      - rotatingSprite.width / 2;
+      - this._getCenter(rotatingSprite, rotatingSprite.width, "y");
   }
 
   /*
