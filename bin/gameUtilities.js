@@ -155,7 +155,7 @@ var GameUtilities = (function () {
     value: function rotateAroundSprite(rotatingSprite, centerSprite, distance, angle) {
       rotatingSprite.x = centerSprite.x + this._getCenter(centerSprite, centerSprite.width, "x") - rotatingSprite.parent.x + distance * Math.cos(angle) - this._getCenter(rotatingSprite, rotatingSprite.width, "x");
 
-      rotatingSprite.y = centerSprite.y + (centerSprite, centerSprite.height, "y") - rotatingSprite.parent.y + distance * Math.sin(angle) - this._getCenter(rotatingSprite, rotatingSprite.width, "y");
+      rotatingSprite.y = centerSprite.y + this._getCenter(centerSprite, centerSprite.height, "y") - rotatingSprite.parent.y + distance * Math.sin(angle) - this._getCenter(rotatingSprite, rotatingSprite.height, "y");
     }
   }, {
     key: "rotateAroundPoint",

@@ -156,9 +156,9 @@ class GameUtilities {
       - this._getCenter(rotatingSprite, rotatingSprite.width, "x");
 
     rotatingSprite.y
-      = (centerSprite.y + (centerSprite, centerSprite.height, "y")) - rotatingSprite.parent.y
+      = (centerSprite.y + this._getCenter(centerSprite, centerSprite.height, "y")) - rotatingSprite.parent.y
       + (distance * Math.sin(angle))
-      - this._getCenter(rotatingSprite, rotatingSprite.width, "y");
+      - this._getCenter(rotatingSprite, rotatingSprite.height, "y");
   }
 
   /*
