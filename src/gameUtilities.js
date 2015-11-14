@@ -102,10 +102,13 @@ class GameUtilities {
 
   angle(s1, s2) {
     return Math.atan2(
+      //This is the code you need if you don't want to compensate
+      //for a possible shift in the sprites' x/y anchor points
       /*
       (s2.y + s2.height / 2) - (s1.y + s1.height / 2),
       (s2.x + s2.width / 2) - (s1.x + s1.width / 2)
       */
+      //This code adapts to a shifted anchor point
       (s2.y + this._getCenter(s2, s2.height, "y")) - (s1.y + this._getCenter(s1, s1.height, "y")),
       (s2.x + this._getCenter(s2, s2.width, "x")) - (s1.x + this._getCenter(s1, s1.width, "x"))
     );
