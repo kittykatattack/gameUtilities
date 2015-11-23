@@ -9,27 +9,24 @@ var GameUtilities = (function () {
     _classCallCheck(this, GameUtilities);
   }
 
+  /*
+  distance
+  ----------------
+   Find the distance in pixels between two sprites.
+  Parameters: 
+  a. A sprite object. 
+  b. A sprite object. 
+  The function returns the number of pixels distance between the sprites.
+      let distanceBetweenSprites = gu.distance(spriteA, spriteB);
+   */
+
   _createClass(GameUtilities, [{
     key: "distance",
-
-    /*
-    distance
-    ----------------
-     Find the distance in pixels between two sprites.
-    Parameters: 
-    a. A sprite object. 
-    b. A sprite object. 
-    The function returns the number of pixels distance between the sprites.
-        let distanceBetweenSprites = gu.distance(spriteA, spriteB);
-     */
-
     value: function distance(s1, s2) {
       var vx = s2.x + this._getCenter(s2, s2.width, "x") - (s1.x + this._getCenter(s1, s1.width, "x")),
           vy = s2.y + this._getCenter(s2, s2.height, "y") - (s1.y + this._getCenter(s1, s1.height, "y"));
       return Math.sqrt(vx * vx + vy * vy);
     }
-  }, {
-    key: "followEase",
 
     /*
     followEase
@@ -43,6 +40,8 @@ var GameUtilities = (function () {
      Use it inside a game loop.
     */
 
+  }, {
+    key: "followEase",
     value: function followEase(follower, leader, speed) {
 
       //Figure out the distance between the sprites
@@ -63,8 +62,6 @@ var GameUtilities = (function () {
         follower.y += vy * speed;
       }
     }
-  }, {
-    key: "followConstant",
 
     /*
     followConstant
@@ -77,6 +74,8 @@ var GameUtilities = (function () {
         gu.followConstant(follower, leader, speed);
      */
 
+  }, {
+    key: "followConstant",
     value: function followConstant(follower, leader, speed) {
 
       //Figure out the distance between the sprites
@@ -91,8 +90,6 @@ var GameUtilities = (function () {
         follower.y += vy / distance * speed;
       }
     }
-  }, {
-    key: "angle",
 
     /*
     angle
@@ -105,16 +102,19 @@ var GameUtilities = (function () {
          box.rotation = angle(box, pointer);
      */
 
+  }, {
+    key: "angle",
     value: function angle(s1, s2) {
       return Math.atan2(
+      //This is the code you need if you don't want to compensate
+      //for a possible shift in the sprites' x/y anchor points
       /*
       (s2.y + s2.height / 2) - (s1.y + s1.height / 2),
       (s2.x + s2.width / 2) - (s1.x + s1.width / 2)
       */
+      //This code adapts to a shifted anchor point
       s2.y + this._getCenter(s2, s2.height, "y") - (s1.y + this._getCenter(s1, s1.height, "y")), s2.x + this._getCenter(s2, s2.width, "x") - (s1.x + this._getCenter(s1, s1.width, "x")));
     }
-  }, {
-    key: "_getCenter",
 
     /*
     _getCenter
@@ -124,6 +124,8 @@ var GameUtilities = (function () {
     If the anchor point has been shifted, then the anchor x/y point is used as the sprite's center
     */
 
+  }, {
+    key: "_getCenter",
     value: function _getCenter(o, dimension, axis) {
       if (o.anchor !== undefined) {
         if (o.anchor[axis] !== 0) {
@@ -136,8 +138,6 @@ var GameUtilities = (function () {
         return dimension;
       }
     }
-  }, {
-    key: "rotateAroundSprite",
 
     /*
     rotateAroundSprite
@@ -152,13 +152,13 @@ var GameUtilities = (function () {
      Use it inside a game loop, and make sure you update the angle value (the 4th argument) each frame.
     */
 
+  }, {
+    key: "rotateAroundSprite",
     value: function rotateAroundSprite(rotatingSprite, centerSprite, distance, angle) {
       rotatingSprite.x = centerSprite.x + this._getCenter(centerSprite, centerSprite.width, "x") - rotatingSprite.parent.x + distance * Math.cos(angle) - this._getCenter(rotatingSprite, rotatingSprite.width, "x");
 
       rotatingSprite.y = centerSprite.y + this._getCenter(centerSprite, centerSprite.height, "y") - rotatingSprite.parent.y + distance * Math.sin(angle) - this._getCenter(rotatingSprite, rotatingSprite.height, "y");
     }
-  }, {
-    key: "rotateAroundPoint",
 
     /*
     rotateAroundPoint
@@ -173,14 +173,14 @@ var GameUtilities = (function () {
      Use it inside a game loop, and make sure you update the angle value (the 4th argument) each frame.
      */
 
+  }, {
+    key: "rotateAroundPoint",
     value: function rotateAroundPoint(pointX, pointY, distanceX, distanceY, angle) {
       var point = {};
       point.x = pointX + Math.cos(angle) * distanceX;
       point.y = pointY + Math.sin(angle) * distanceY;
       return point;
     }
-  }, {
-    key: "randomInt",
 
     /*
     randomInt
@@ -193,11 +193,11 @@ var GameUtilities = (function () {
         let number = gu.randomInt(1, 10);
      */
 
+  }, {
+    key: "randomInt",
     value: function randomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-  }, {
-    key: "randomFloat",
 
     /*
     randomFloat
@@ -210,11 +210,11 @@ var GameUtilities = (function () {
          let number = gu.randomFloat(1, 10);
      */
 
+  }, {
+    key: "randomFloat",
     value: function randomFloat(min, max) {
       return min + Math.random() * (max - min);
     }
-  }, {
-    key: "wait",
 
     /*
     Wait
@@ -228,15 +228,15 @@ var GameUtilities = (function () {
           .then(() => console.log("Three"))
      */
 
+  }, {
+    key: "wait",
     value: function wait() {
-      var duration = arguments[0] === undefined ? 0 : arguments[0];
+      var duration = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
       return new Promise(function (resolve, reject) {
         setTimeout(resolve, duration);
       });
     }
-  }, {
-    key: "move",
 
     /*
     Move
@@ -247,6 +247,8 @@ var GameUtilities = (function () {
          move(sprite);
     */
 
+  }, {
+    key: "move",
     value: function move() {
       for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
         sprites[_key] = arguments[_key];
