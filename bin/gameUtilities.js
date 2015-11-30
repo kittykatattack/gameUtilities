@@ -219,23 +219,17 @@ var GameUtilities = (function () {
     /*
     Wait
     ----
-     Lets you set up a timed sequence of events. Supply a number in milliseconds.
-         wait(1000)
-          .then(() => console.log("One"))
-          .then(() => wait(1000))
-          .then(() => console.log("Two"))
-          .then(() => wait(1000))
-          .then(() => console.log("Three"))
-     */
+     Lets you wait for a specific number of milliseconds before running the
+    next function. 
+     
+      wait(1000, runThisFunctionNext)
+    
+    */
 
   }, {
     key: "wait",
-    value: function wait() {
-      var duration = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
-      return new Promise(function (resolve, reject) {
-        setTimeout(resolve, duration);
-      });
+    value: function wait(duration, callBack) {
+      setTimeout(callBack, duration);
     }
 
     /*
@@ -254,17 +248,30 @@ var GameUtilities = (function () {
         sprites[_key] = arguments[_key];
       }
 
-      if (sprites.length === 1) {
-        var s = sprites[0];
-        s.x += s.vx;
-        s.y += s.vy;
-      } else {
-        for (var i = 0; i < sprites.length; i++) {
-          var s = sprites[i];
-          s.x += s.vx;
-          s.y += s.vy;
+      //Move sprites that's aren't in an array
+      if (!(sprites[0] instanceof Array)) {
+        if (sprites.length > 1) {
+          sprites.forEach(function (sprite) {
+            sprite.x += sprite.vx;
+            sprite.y += sprite.vy;
+          });
+        } else {
+          sprites[0].x += sprites[0].vx;
+          sprites[0].y += sprites[0].vy;
         }
       }
+
+      //Move sprites in an array of sprites
+      else {
+          var spritesArray = sprites[0];
+          if (spritesArray.length > 0) {
+            for (var i = spritesArray.length - 1; i >= 0; i--) {
+              var sprite = spritesArray[i];
+              sprite.x += sprite.vx;
+              sprite.y += sprite.vy;
+            }
+          }
+        }
     }
   }]);
 

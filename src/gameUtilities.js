@@ -228,21 +228,15 @@ class GameUtilities {
   Wait
   ----
 
-  Lets you set up a timed sequence of events. Supply a number in milliseconds.
-
-      wait(1000)
-        .then(() => console.log("One"))
-        .then(() => wait(1000))
-        .then(() => console.log("Two"))
-        .then(() => wait(1000))
-        .then(() => console.log("Three"))
-
+  Lets you wait for a specific number of milliseconds before running the
+  next function. 
+   
+    wait(1000, runThisFunctionNext)
+  
   */
 
-  wait(duration = 0) {
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, duration);
-    });
+  wait(duration, callBack) {
+    setTimeout(callBack, duration);
   }
 
   /*
@@ -257,16 +251,29 @@ class GameUtilities {
   */
 
   move(...sprites) {
-    if (sprites.length === 1) {
-      let s = sprites[0];
-      s.x += s.vx;
-      s.y += s.vy;
+
+    //Move sprites that's aren't in an array
+    if (!(sprites[0] instanceof Array)) {
+      if (sprites.length > 1) {
+        sprites.forEach(sprite  => {
+          sprite.x += sprite.vx;
+          sprite.y += sprite.vy;
+        });
+      } else {
+        sprites[0].x += sprites[0].vx;
+        sprites[0].y += sprites[0].vy;
+      }
     }
+
+    //Move sprites in an array of sprites
     else {
-      for (let i = 0; i < sprites.length; i++) {
-        let s = sprites[i];
-        s.x += s.vx;
-        s.y += s.vy;
+      let spritesArray = sprites[0];
+      if (spritesArray.length > 0) {
+        for (let i = spritesArray.length - 1; i >= 0; i--) {
+          let sprite = spritesArray[i];
+          sprite.x += sprite.vx;
+          sprite.y += sprite.vy;
+        }
       }
     }
   }
