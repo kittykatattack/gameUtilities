@@ -222,7 +222,7 @@ var GameUtilities = (function () {
      Lets you wait for a specific number of milliseconds before running the
     next function. 
      
-      wait(1000, runThisFunctionNext)
+      wait(1000, runThisFunctionNext());
     
     */
 

@@ -149,7 +149,7 @@ Wait
 Lets you wait for a specific number of milliseconds before running the
 next function. 
 ```js 
-wait(1000, runThisFunctionNext)
+wait(1000, runThisFunctionNext());
 ```
 
 <a id="move"></a>
