@@ -15,6 +15,7 @@ the [Pixi rendering engine](https://github.com/pixijs/pixi.js).
 [randomFloat: Get a random floating point (decimal) number](#randomfloat) <br>
 [wait: Set a delay before running the next task](#wait) <br>
 [move: Move a sprite by adding its velocity to its position](#move) <br>
+[worldCamera: A camera for following objects around a large game world](#worldCamera) <br>
 
 <a id="settingup"></a>
 Setting up
@@ -24,7 +25,7 @@ Link to the `gameUtilities.js` file in your HTML document with a
 `<script>` tag, then create a new instance of the Game Utilities
 library in your JavaScript file like this:
 
-```
+```js
 let gu = new GameUtilities();
 ```
 You can now access all the utility methods through the `gu` object.
@@ -143,7 +144,7 @@ Here's how you can use it to get a random floating point number between, 1 and 1
 let number = gu.randomFloat(1, 10);
 ```
 <a id="wait"></a>
-Wait
+wait
 ----
 
 Lets you wait for a specific number of milliseconds before running the
@@ -153,14 +154,80 @@ wait(1000, runThisFunctionNext());
 ```
 
 <a id="move"></a>
-Move
+move
 ----
 
 Move a sprite by adding it's velocity to it's position. The sprite 
 must have `vx` and `vy` values for this to work. You can supply a
 single sprite, or a list of sprites, separated by commas.
 ```js
-gu.move(sprite);
+gu.move(anySprite);
 ```
-To work, this needs to be updated each frame of your game loop.
+You can supply a single sprite, an argument list of sprite, or even a
+whole array containing sprites you want to move. But, make sure that
+all those sprites have `vx` and `vy` values that have been initialized
+to `0` somewhere in your code.
+
+To make `move` work, update it each frame of your game loop, like
+this:
+```js
+function gameLoop() {
+  requestAnimationFrame(gameLoop);
+
+  //Call `camera.follow` each frame to update the camera's position
+  gu.move(anySprite);
+}
+```
+
+<a id="worldCamera"></a>
+worldCamera
+-----------
+
+A "camera" object that you can use to follow game objects around a
+large scrolling game world. The camera implements all the scrolling
+for you - you just need to give it a large game world to scroll. You
+can use any Pixi `Container` or `Sprite` as your game world.
+
+Here's how to create a scrolling camera. Use the `worldCamera` method
+and supply these 4 things:
+
+1. The Pixi `Container` or `Sprite` you want to control.
+2. The width of the game world.
+3. The height of the game world.
+4. The HTML `canvas` object that represents your game screen. In Pixi,
+   this is the `PIXI.renderer.view` object.
+```js
+let camera = gu.worldCamera(gameWorldContainer, worldWidth, worldHeight, canvas);
+```
+Be careful! The `width` and `height` values that the camera needs are probably
+**different** from the `Container` width and height that represents your 
+game world. That's because Pixi containers and sprites dynamically change their
+size and width based on the positions of the child sprites they
+contain. If any of your game world's child sprites move around to the 
+edges of the game world, they'll cause the `width` or `height` of the world
+to increase and make the camera scroll off the edges of the world. 
+So, you'll probably need to supply some fixed values that
+define your `worldWidth` and `worldHeight`.
+
+Use the camera's `centerOver` method to center the camera over a sprite.
+```js
+camera.centerOver(anySprite);
+```
+You can use the camera's `follow` method to make the camera follow a
+sprite around the world.
+```js
+camera.follow(anySprite);
+```
+Make sure call `follow` inside your game loop to see the effect!
+```js
+function gameLoop() {
+  requestAnimationFrame(gameLoop);
+
+  //Call `camera.follow` each frame to update the camera's position
+  camera.follow(anySprite);
+}
+```
+The camera will only start following the sprite when the sprite moves to
+within 25% of the screen edges, which is a very natural looking
+effect.
 

@@ -273,6 +273,116 @@ var GameUtilities = (function () {
           }
         }
     }
+
+    /*
+    World camera
+    ------------
+     The `worldCamera` method returns a `camera` object
+    with `x` and `y` properties. It has
+    two useful methods: `centerOver`, to center the camera over
+    a sprite, and `follow` to make it follow a sprite.
+    `worldCamera` arguments: worldObject, theCanvas
+    The worldObject needs to have a `width` and `height` property.
+    */
+
+  }, {
+    key: "worldCamera",
+    value: function worldCamera(world, worldWidth, worldHeight, canvas) {
+      var camera = {
+        width: canvas.width,
+        height: canvas.height,
+        _x: 0,
+        _y: 0,
+
+        //`x` and `y` getters/setters
+        //When you change the camera's position,
+        //they acutally reposition the world
+        get x() {
+          return this._x;
+        },
+        set x(value) {
+          this._x = value;
+          world.x = -this._x;
+          world._previousX = world.x;
+        },
+        get y() {
+          return this._y;
+        },
+        set y(value) {
+          this._y = value;
+          world.y = -this._y;
+          world._previousY = world.y;
+        },
+        get centerX() {
+          return this.x + this.width / 2;
+        },
+        get centerY() {
+          return this.y + this.height / 2;
+        },
+        get rightInnerBoundary() {
+          return this.x + this.width / 2 + this.width / 4;
+        },
+        get leftInnerBoundary() {
+          return this.x + this.width / 2 - this.width / 4;
+        },
+        get topInnerBoundary() {
+          return this.y + this.height / 2 - this.height / 4;
+        },
+        get bottomInnerBoundary() {
+          return this.y + this.height / 2 + this.height / 4;
+        },
+
+        //Use the `follow` method to make the camera follow a sprite
+        follow: function follow(sprite) {
+
+          //Check the sprites position in relation to the inner boundary
+          if (sprite.x < this.leftInnerBoundary) {
+
+            //Move the camera to follow the sprite if the sprite strays outside
+            //this.x = Math.floor(sprite.x - (this.width / 4));
+            this.x = sprite.x - this.width / 4;
+          }
+          if (sprite.y < this.topInnerBoundary) {
+
+            //this.y = Math.floor(sprite.y - (this.height / 4));
+            this.y = sprite.y - this.height / 4;
+          }
+          if (sprite.x + sprite.width > this.rightInnerBoundary) {
+
+            //this.x = Math.floor(sprite.x + sprite.width - (this.width / 4 * 3));
+            this.x = sprite.x + sprite.width - this.width / 4 * 3;
+          }
+          if (sprite.y + sprite.height > this.bottomInnerBoundary) {
+
+            //this.y = Math.floor(sprite.y + sprite.height - (this.height / 4 * 3));
+            this.y = sprite.y + sprite.height - this.height / 4 * 3;
+          }
+          //If the camera reaches the edge of the map, stop it from moving
+          if (this.x < 0) {
+            this.x = 0;
+          }
+          if (this.y < 0) {
+            this.y = 0;
+          }
+          if (this.x + this.width > worldWidth) {
+            this.x = worldWidth - this.width;
+          }
+          if (this.y + this.height > worldHeight) {
+            this.y = worldHeight - this.height;
+          }
+        },
+
+        //Use the `centerOver` method to center the camera over a sprite
+        centerOver: function centerOver(sprite) {
+
+          //Center the camera over a sprite
+          this.x = sprite.x + sprite.halfWidth - this.width / 2;
+          this.y = sprite.y + sprite.halfHeight - this.height / 2;
+        }
+      };
+
+      return camera;
+    }
   }]);
 
   return GameUtilities;
