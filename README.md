@@ -1,8 +1,10 @@
-Game Utilities
+Game Utilities for Pixi (v3.9)
 =============
 
 A library of helpful functions for making games and applications for
 the [Pixi rendering engine](https://github.com/pixijs/pixi.js).
+
+(Important! This library targets Pixi v3.9, which is the most stable version of Pixi, and is the only version I can recommend using. This library will eventually be upgraded for Pixi v4 when the v4 branch matures.)
 
 [Setting up](#settingup) <br>
 [distance: The pixel distance between two sprites](#distance) <br>
