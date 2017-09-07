@@ -18,6 +18,7 @@ the [Pixi rendering engine](https://github.com/pixijs/pixi.js).
 [wait: Set a delay before running the next task](#wait) <br>
 [move: Move a sprite by adding its velocity to its position](#move) <br>
 [worldCamera: A camera for following objects around a large game world](#worldCamera) <br>
+[lineOfSight: tells you whether a sprite is visible to another sprite](#lineOfSight) <br>
 
 <a id="settingup"></a>
 Setting up
@@ -232,4 +233,34 @@ function gameLoop() {
 The camera will only start following the sprite when the sprite moves to
 within 25% of the screen edges, which is a very natural looking
 effect.
+
+<a id="lineOfSight"></a>
+Line of sight
+------------
+
+The `lineOfSight` method will return `true` if there’s clear line of sight 
+between two sprites, and `false` if there isn’t. Here’s how to use it in your game code:
+
+```
+monster.lineOfSight = gu.lineOfSight(
+  monster, //Sprite one
+  alien,   //Sprite two
+  boxes,   //An array of obstacle sprites
+  16       //The distance between each collision point
+);
+```
+
+The 4th argument determines the distance between collision points. 
+For better performance, make this a large number, up to the maximum 
+width of your smallest sprite (such as 64 or 32). For greater precision, 
+use a smaller number. You can use the lineOfSight value to decide how 
+to change certain things in your game. For example:
+
+```
+if (monster.lineOfSight) {
+  monster.show(monster.states.angry)
+} else {
+  monster.show(monster.states.normal)
+}
+```
 
