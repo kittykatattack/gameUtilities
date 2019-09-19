@@ -1,4 +1,4 @@
-class GameUtilities {
+export class GameUtilities {
   constructor() {}
 
   /*
@@ -16,8 +16,14 @@ class GameUtilities {
   */
 
   distance(s1, s2) {
-    let vx = (s2.x + this._getCenter(s2, s2.width, "x")) - (s1.x + this._getCenter(s1, s1.width, "x")),
-        vy = (s2.y + this._getCenter(s2, s2.height, "y")) - (s1.y + this._getCenter(s1, s1.height, "y"));
+    let vx =
+        s2.x +
+        this._getCenter(s2, s2.width, "x") -
+        (s1.x + this._getCenter(s1, s1.width, "x")),
+      vy =
+        s2.y +
+        this._getCenter(s2, s2.height, "y") -
+        (s1.y + this._getCenter(s1, s1.height, "y"));
     return Math.sqrt(vx * vx + vy * vy);
   }
 
@@ -37,7 +43,6 @@ class GameUtilities {
   */
 
   followEase(follower, leader, speed) {
-
     //Figure out the distance between the sprites
     /*
     let vx = (leader.x + leader.width / 2) - (follower.x + follower.width / 2),
@@ -45,9 +50,15 @@ class GameUtilities {
         distance = Math.sqrt(vx * vx + vy * vy);
     */
 
-    let vx = (leader.x + this._getCenter(leader, leader.width, "x")) - (follower.x + this._getCenter(follower, follower.width, "x")),
-        vy = (leader.y + this._getCenter(leader, leader.height, "y")) - (follower.y + this._getCenter(follower, follower.height, "y")),
-        distance = Math.sqrt(vx * vx + vy * vy);
+    let vx =
+        leader.x +
+        this._getCenter(leader, leader.width, "x") -
+        (follower.x + this._getCenter(follower, follower.width, "x")),
+      vy =
+        leader.y +
+        this._getCenter(leader, leader.height, "y") -
+        (follower.y + this._getCenter(follower, follower.height, "y")),
+      distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 pixel
     //away from the leader
@@ -72,11 +83,16 @@ class GameUtilities {
   */
 
   followConstant(follower, leader, speed) {
-
     //Figure out the distance between the sprites
-    let vx = (leader.x + this._getCenter(leader, leader.width, "x")) - (follower.x + this._getCenter(follower, follower.width, "x")),
-        vy = (leader.y + this._getCenter(leader, leader.height, "y")) - (follower.y + this._getCenter(follower, follower.height, "y")),
-        distance = Math.sqrt(vx * vx + vy * vy);
+    let vx =
+        leader.x +
+        this._getCenter(leader, leader.width, "x") -
+        (follower.x + this._getCenter(follower, follower.width, "x")),
+      vy =
+        leader.y +
+        this._getCenter(leader, leader.height, "y") -
+        (follower.y + this._getCenter(follower, follower.height, "y")),
+      distance = Math.sqrt(vx * vx + vy * vy);
 
     //Move the follower if it's more than 1 move
     //away from the leader
@@ -109,8 +125,12 @@ class GameUtilities {
       (s2.x + s2.width / 2) - (s1.x + s1.width / 2)
       */
       //This code adapts to a shifted anchor point
-      (s2.y + this._getCenter(s2, s2.height, "y")) - (s1.y + this._getCenter(s1, s1.height, "y")),
-      (s2.x + this._getCenter(s2, s2.width, "x")) - (s1.x + this._getCenter(s1, s1.width, "x"))
+      s2.y +
+        this._getCenter(s2, s2.height, "y") -
+        (s1.y + this._getCenter(s1, s1.height, "y")),
+      s2.x +
+        this._getCenter(s2, s2.width, "x") -
+        (s1.x + this._getCenter(s1, s1.width, "x"))
     );
   }
 
@@ -132,10 +152,9 @@ class GameUtilities {
         return dimension / 2;
       }
     } else {
-      return dimension; 
+      return dimension;
     }
   }
-  
 
   /*
   rotateAroundSprite
@@ -153,15 +172,19 @@ class GameUtilities {
   */
 
   rotateAroundSprite(rotatingSprite, centerSprite, distance, angle) {
-    rotatingSprite.x
-      = (centerSprite.x + this._getCenter(centerSprite, centerSprite.width, "x")) - rotatingSprite.parent.x
-      + (distance * Math.cos(angle))
-      - this._getCenter(rotatingSprite, rotatingSprite.width, "x");
+    rotatingSprite.x =
+      centerSprite.x +
+      this._getCenter(centerSprite, centerSprite.width, "x") -
+      rotatingSprite.parent.x +
+      distance * Math.cos(angle) -
+      this._getCenter(rotatingSprite, rotatingSprite.width, "x");
 
-    rotatingSprite.y
-      = (centerSprite.y + this._getCenter(centerSprite, centerSprite.height, "y")) - rotatingSprite.parent.y
-      + (distance * Math.sin(angle))
-      - this._getCenter(rotatingSprite, rotatingSprite.height, "y");
+    rotatingSprite.y =
+      centerSprite.y +
+      this._getCenter(centerSprite, centerSprite.height, "y") -
+      rotatingSprite.parent.y +
+      distance * Math.sin(angle) -
+      this._getCenter(rotatingSprite, rotatingSprite.height, "y");
   }
 
   /*
@@ -186,7 +209,6 @@ class GameUtilities {
     point.y = pointY + Math.sin(angle) * distanceY;
     return point;
   }
-
 
   /*
   randomInt
@@ -251,11 +273,10 @@ class GameUtilities {
   */
 
   move(...sprites) {
-
     //Move sprites that's aren't in an array
     if (!(sprites[0] instanceof Array)) {
       if (sprites.length > 1) {
-        sprites.forEach(sprite  => {
+        sprites.forEach(sprite => {
           sprite.x += sprite.vx;
           sprite.y += sprite.vy;
         });
@@ -278,7 +299,6 @@ class GameUtilities {
     }
   }
 
-
   /*
   World camera
   ------------
@@ -292,7 +312,6 @@ class GameUtilities {
   */
 
   worldCamera(world, worldWidth, worldHeight, canvas) {
-
     //Define a `camera` object with helpful properties
     let camera = {
       width: canvas.width,
@@ -322,10 +341,10 @@ class GameUtilities {
 
       //The center x and y position of the camera
       get centerX() {
-        return this.x + (this.width / 2);
+        return this.x + this.width / 2;
       },
       get centerY() {
-        return this.y + (this.height / 2);
+        return this.y + this.height / 2;
       },
 
       //Boundary properties that define a rectangular area, half the size
@@ -334,67 +353,65 @@ class GameUtilities {
       //crosses this boundary, the `follow` function ahead will change
       //the camera's x and y position to scroll the game world
       get rightInnerBoundary() {
-        return this.x + (this.width / 2) + (this.width / 4);
+        return this.x + this.width / 2 + this.width / 4;
       },
       get leftInnerBoundary() {
-        return this.x + (this.width / 2) - (this.width / 4);
+        return this.x + this.width / 2 - this.width / 4;
       },
       get topInnerBoundary() {
-        return this.y + (this.height / 2) - (this.height / 4);
+        return this.y + this.height / 2 - this.height / 4;
       },
       get bottomInnerBoundary() {
-        return this.y + (this.height / 2) + (this.height / 4);
+        return this.y + this.height / 2 + this.height / 4;
       },
 
-      //The code next defines two camera 
+      //The code next defines two camera
       //methods: `follow` and `centerOver`
 
       //Use the `follow` method to make the camera follow a sprite
       follow: function(sprite) {
-
         //Check the sprites position in relation to the inner
-        //boundary. Move the camera to follow the sprite if the sprite 
+        //boundary. Move the camera to follow the sprite if the sprite
         //strays outside the boundary
-        if(sprite.x < this.leftInnerBoundary) {
-          this.x = sprite.x - (this.width / 4);
+        if (sprite.x < this.leftInnerBoundary) {
+          this.x = sprite.x - this.width / 4;
         }
-        if(sprite.y < this.topInnerBoundary) {
-          this.y = sprite.y - (this.height / 4);
+        if (sprite.y < this.topInnerBoundary) {
+          this.y = sprite.y - this.height / 4;
         }
-        if(sprite.x + sprite.width > this.rightInnerBoundary) {
-          this.x = sprite.x + sprite.width - (this.width / 4 * 3);
+        if (sprite.x + sprite.width > this.rightInnerBoundary) {
+          this.x = sprite.x + sprite.width - (this.width / 4) * 3;
         }
-        if(sprite.y + sprite.height > this.bottomInnerBoundary) {
-          this.y = sprite.y + sprite.height - (this.height / 4 * 3);
+        if (sprite.y + sprite.height > this.bottomInnerBoundary) {
+          this.y = sprite.y + sprite.height - (this.height / 4) * 3;
         }
 
         //If the camera reaches the edge of the map, stop it from moving
-        if(this.x < 0) {
+        if (this.x < 0) {
           this.x = 0;
         }
-        if(this.y < 0) {
+        if (this.y < 0) {
           this.y = 0;
         }
-        if(this.x + this.width > worldWidth) {
+        if (this.x + this.width > worldWidth) {
           this.x = worldWidth - this.width;
         }
-        if(this.y + this.height > worldHeight) {
+        if (this.y + this.height > worldHeight) {
           this.y = worldHeight - this.height;
         }
       },
 
       //Use the `centerOver` method to center the camera over a sprite
       centerOver: function(sprite) {
-
         //Center the camera over a sprite
-        this.x = (sprite.x + sprite.halfWidth) - (this.width / 2);
-        this.y = (sprite.y + sprite.halfHeight) - (this.height / 2);
+        this.x = sprite.x + sprite.halfWidth - this.width / 2;
+        this.y = sprite.y + sprite.halfHeight - this.height / 2;
       }
     };
-    
-    //Return the `camera` object 
+
+    //Return the `camera` object
     return camera;
-  };
+  }
 
   /*
   Line of sight
@@ -430,88 +447,85 @@ class GameUtilities {
     obstacles, //An array of sprites which act as obstacles
     segment = 32 //The distance between collision points
   ) {
+    //Calculate the center points of each sprite
+    spriteOneCenterX = s1.x + this._getCenter(s1, s1.width, "x");
+    spriteOneCenterY = s1.y + this._getCenter(s1, s1.height, "y");
+    spriteTwoCenterX = s2.x + this._getCenter(s2, s2.width, "x");
+    spriteTwoCenterY = s2.y + this._getCenter(s2, s2.height, "y");
 
-  //Calculate the center points of each sprite
-  spriteOneCenterX = s1.x + this._getCenter(s1, s1.width, "x");
-  spriteOneCenterY = s1.y + this._getCenter(s1, s1.height, "y");
-  spriteTwoCenterX = s2.x + this._getCenter(s2, s2.width, "x");
-  spriteTwoCenterY = s2.y + this._getCenter(s2, s2.height, "y");
+    //Plot a vector between spriteTwo and spriteOne
+    let vx = spriteTwoCenterX - spriteOneCenterX,
+      vy = spriteTwoCenterY - spriteOneCenterY;
 
-  //Plot a vector between spriteTwo and spriteOne
-  let vx = spriteTwoCenterX - spriteOneCenterX,
-    vy = spriteTwoCenterY - spriteOneCenterY;
+    //Find the vector's magnitude (its length in pixels)
+    let magnitude = Math.sqrt(vx * vx + vy * vy);
 
-  //Find the vector's magnitude (its length in pixels)
-  let magnitude = Math.sqrt(vx * vx + vy * vy);
+    //How many points will we need to test?
+    let numberOfPoints = magnitude / segment;
 
-  //How many points will we need to test?
-  let numberOfPoints = magnitude / segment;
+    //Create an array of x/y points, separated by 64 pixels, that
+    //extends from `spriteOne` to `spriteTwo`
+    let points = () => {
+      //Initialize an array that is going to store all our points
+      //along the vector
+      let arrayOfPoints = [];
 
-  //Create an array of x/y points, separated by 64 pixels, that
-  //extends from `spriteOne` to `spriteTwo`  
-  let points = () => {
+      //Create a point object for each segment of the vector and
+      //store its x/y position as well as its index number on
+      //the map array
+      for (let i = 1; i <= numberOfPoints; i++) {
+        //Calculate the new magnitude for this iteration of the loop
+        let newMagnitude = segment * i;
 
-    //Initialize an array that is going to store all our points
-    //along the vector
-    let arrayOfPoints = [];
+        //Find the unit vector. This is a small, scaled down version of
+        //the vector between the sprites that's less than one pixel long.
+        //It points in the same direction as the main vector, but because it's
+        //the smallest size that the vector can be, we can use it to create
+        //new vectors of varying length
+        let dx = vx / magnitude,
+          dy = vy / magnitude;
 
-    //Create a point object for each segment of the vector and 
-    //store its x/y position as well as its index number on
-    //the map array 
-    for (let i = 1; i <= numberOfPoints; i++) {
+        //Use the unit vector and newMagnitude to figure out the x/y
+        //position of the next point in this loop iteration
+        let x = spriteOneCenterX + dx * newMagnitude,
+          y = spriteOneCenterY + dy * newMagnitude;
 
-      //Calculate the new magnitude for this iteration of the loop
-      let newMagnitude = segment * i;
+        //Push a point object with x and y properties into the `arrayOfPoints`
+        arrayOfPoints.push({
+          x,
+          y
+        });
+      }
 
-      //Find the unit vector. This is a small, scaled down version of
-      //the vector between the sprites that's less than one pixel long.
-      //It points in the same direction as the main vector, but because it's
-      //the smallest size that the vector can be, we can use it to create
-      //new vectors of varying length
-      let dx = vx / magnitude,
-        dy = vy / magnitude;
+      //Return the array of point objects
+      return arrayOfPoints;
+    };
 
-      //Use the unit vector and newMagnitude to figure out the x/y
-      //position of the next point in this loop iteration
-      let x = spriteOneCenterX + dx * newMagnitude,
-        y = spriteOneCenterY + dy * newMagnitude;
+    //Test for a collision between a point and a sprite
+    let hitTestPoint = (point, sprite) => {
+      //Find out if the point's position is inside the area defined
+      //by the sprite's left, right, top and bottom sides
+      let left = point.x > sprite.x,
+        right = point.x < sprite.x + sprite.width,
+        top = point.y > sprite.y,
+        bottom = point.y < sprite.y + sprite.height;
 
-      //Push a point object with x and y properties into the `arrayOfPoints`
-      arrayOfPoints.push({
-        x, y
+      //If all the collision conditions are met, you know the
+      //point is intersecting the sprite
+      return left && right && top && bottom;
+    };
+
+    //The `noObstacles` function will return `true` if all the tile
+    //index numbers along the vector are `0`, which means they contain
+    //no obstacles. If any of them aren't 0, then the function returns
+    //`false` which means there's an obstacle in the way
+    let noObstacles = points().every(point => {
+      return obstacles.every(obstacle => {
+        return !hitTestPoint(point, obstacle);
       });
-    }
-
-    //Return the array of point objects
-    return arrayOfPoints;
-  };
-
-  //Test for a collision between a point and a sprite
-  let hitTestPoint = (point, sprite) => {
-
-    //Find out if the point's position is inside the area defined
-    //by the sprite's left, right, top and bottom sides
-    let left = point.x > sprite.x,
-      right = point.x < (sprite.x + sprite.width),
-      top = point.y > sprite.y,
-      bottom = point.y < (sprite.y + sprite.height);
-
-    //If all the collision conditions are met, you know the
-    //point is intersecting the sprite
-    return left && right && top && bottom;
-  };
-
-  //The `noObstacles` function will return `true` if all the tile
-  //index numbers along the vector are `0`, which means they contain 
-  //no obstacles. If any of them aren't 0, then the function returns
-  //`false` which means there's an obstacle in the way 
-  let noObstacles = points().every(point => {
-    return obstacles.every(obstacle => {
-      return !(hitTestPoint(point, obstacle))
     });
-  });
 
-  //Return the true/false value of the collision test
-  return noObstacles;
+    //Return the true/false value of the collision test
+    return noObstacles;
   }
 }
